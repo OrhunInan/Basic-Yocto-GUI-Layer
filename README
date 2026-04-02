@@ -1,41 +1,58 @@
-This README file contains information on the contents of the meta-orhun-gui layer.
+# meta-orhun-gui
 
-Please see the corresponding sections below for details.
+This layer provides a custom, hardware-accelerated X11/XFCE graphical desktop environment for Yocto Project builds, specifically optimized for the Raspberry Pi 5. 
 
-Dependencies
-============
+It features a completely minimal desktop setup, a pre-compiled Chromium browser with OpenGL support, and a seamless LXDM auto-login experience powered by systemd.
 
-  URI: <first dependency>
-  branch: <branch name>
+## Dependencies
 
-  URI: <second dependency>
-  branch: <branch name>
+This layer depends on several core and third-party OpenEmbedded layers:
 
-  .
-  .
-  .
+  URI: git://git.openembedded.org/openembedded-core
+  layers: meta
 
-Patches
-=======
+  URI: git://git.openembedded.org/meta-openembedded
+  layers: meta-oe, meta-python, meta-networking, meta-xfce
 
-Please submit any patches against the meta-orhun-gui layer to the xxxx mailing list (xxxx@zzzz.org)
-and cc: the maintainer:
+  URI: git://git.yoctoproject.org/meta-raspberrypi
+  branch: master
 
-Maintainer: XXX YYYYYY <xxx.yyyyyy@zzzzz.com>
+  URI: https://github.com/kraj/meta-clang
+  branch: master
 
-Table of Contents
-=================
+  URI: https://github.com/OSSystems/meta-browser
+  layers: meta-chromium
+  branch: master
+
+## Core Features
+
+* **Custom Distribution (`orhun-linux`):** Enforces `systemd` as the init manager, requires `usrmerge`, and globally enables `x11` and `opengl` features.
+* **Minimal XFCE Desktop:** A stripped-down, highly responsive GUI environment.
+* **Chromium Integration:** Fully hardware-accelerated web browser.
+* **Display Manager:** Uses `lxdm` (bypassing the default `xserver-nodm-init`) to handle graphical sessions.
+* **Auto-Login:** Systemd is configured to boot directly into `graphical.target`, and LXDM automatically logs into the default user without prompting.
+
+## Default Credentials
+
+The `orhun-gui` image provisions a default standard user for the auto-login session.
+
+* **Username:** `user`
+* **Password:** `1234`
+* **Groups:** `video, audio, tty`
+
+*Note: The password is set using a native SHA-512 hash in the image recipe to ensure compatibility with modern OpenEmbedded shadow utilities.*
+
+## Table of Contents
 
   I. Adding the meta-orhun-gui layer to your build
- II. Misc
+ II. Building the Image
+III. Maintainer Information
 
+---
 
-I. Adding the meta-orhun-gui layer to your build
-=================================================
+### I. Adding the meta-orhun-gui layer to your build
 
-Run 'bitbake-layers add-layer meta-orhun-gui'
+To integrate this layer into your Yocto build environment, run the following command from your build directory:
 
-II. Misc
-========
-
---- replace with specific information about the meta-orhun-gui layer ---
+```bash
+bitbake-layers add-layer /path/to/meta-orhun-gui

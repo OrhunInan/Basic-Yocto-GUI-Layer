@@ -4,7 +4,6 @@ LICENSE = "MIT"
 inherit core-image
 inherit extrausers
 
-# Removed xfce-custom-config from this list
 IMAGE_INSTALL += " \
     packagegroup-core-x11 \
     packagegroup-xfce-base \
